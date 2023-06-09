@@ -14,15 +14,28 @@ const editMemo = async (event) => {
   readMemo();
 };
 
+const deleteMemo = async (event) => {
+  const id = event.target.dataset.id;
+  const res = await fetch(`/memos/${id}`, {
+    method: "DELETE",
+  });
+  readMemo();
+};
+
 const displayMemo = (memo) => {
   const ul = document.querySelector("#memo-ul");
   const li = document.createElement("li");
-  const btn = document.createElement("button");
+  const editBtn = document.createElement("button");
+  const deleteBtn = document.createElement("button");
   li.innerText = `[id: ${memo.id}] ${memo.content}`;
-  btn.innerText = "수정하기";
-  btn.addEventListener("click", editMemo);
-  btn.dataset.id = memo.id;
-  li.appendChild(btn);
+  editBtn.innerText = "수정하기";
+  editBtn.addEventListener("click", editMemo);
+  editBtn.dataset.id = memo.id;
+  deleteBtn.innerText = "삭제하기";
+  deleteBtn.addEventListener("click", deleteMemo);
+  deleteBtn.dataset.id = memo.id;
+  li.appendChild(editBtn);
+  li.appendChild(deleteBtn);
   ul.appendChild(li);
 };
 
